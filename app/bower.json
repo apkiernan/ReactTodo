@@ -1,0 +1,26 @@
+{
+  "name": "ReactTodo",
+  "version": "0.0.0",
+  "authors": [
+    "Andrew Kiernan <apkiernan@gmail.com>"
+  ],
+  "description": "Test Project to work with ReactJS",
+  "main": "app/index.html",
+  "keywords": [
+    "React",
+    "JavaScript"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.12.2",
+    "jquery": "~2.1.3"
+  }
+}
