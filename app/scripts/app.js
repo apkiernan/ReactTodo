@@ -100,15 +100,11 @@ var Controls = React.createClass({
 	},
 
 	clearComplete: function () {
-		console.log('clearComplete triggered');
-
-		// TODO (heh)
+		return this.props.store.clearCompleted();
 	},
 
 	clearAll: function () {
-		console.log('clearAll triggered');
-
-		// TODO (heh)
+		return this.props.store.clearAll();
 	},
 
 	_handleClick: function (e) {

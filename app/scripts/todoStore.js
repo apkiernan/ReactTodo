@@ -43,3 +43,15 @@ TodoStore.prototype.completeAll = function () {
 	});
 	this.publish('change');
 };
+
+TodoStore.prototype.clearCompleted = function () {
+	this.todos = this.todos.filter(function (todo) {
+		return !todo.completed;
+	}, this);
+	this.publish('change');
+};
+
+TodoStore.prototype.clearAll = function () {
+	this.todos = [];
+	this.publish('change');
+};
