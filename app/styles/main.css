@@ -4,9 +4,10 @@
 	box-sizing: border-box;
 }
 
-#content {
+body {
 	width: 60%;
 	margin: 5% auto;
+	background: khaki;
 }
 
 .todoApp {
@@ -28,9 +29,17 @@ button {
 	border: 1px solid #444;
 }
 
-.todo-item {
-	display: inline-block;
-	width: 40%;
+ul {
+	list-style: none outside;
+}
+
+li {
+	display: flex;
+	justify-content: flex-start;
+}
+
+li:last-child {
+	flex-grow: 3;
 }
 
 li.delete {

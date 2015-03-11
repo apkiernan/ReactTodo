@@ -1,25 +1,51 @@
-(function () {
-
 	var id = 0;
 
-	var todoData = [
-		{completed: false, text: 'Learn React', id: ++id}
-	];
+	var TodoStore = {
+		subscribers: {},
+		todos: [
+			{completed: false, text: 'Learn React', id: ++id}
+		]
+	};
+
+	TodoStore.prototype = Object.prototype;
+
+	TodoStore.prototype.publish = function (event) {
+		if (!this.subscribers[event]) {
+			return;
+		}
+		for (var i = 0; i < this.subscribers[event].length; i++) {
+			this.subscribers[event][i]();
+		}
+	};
+
+	TodoStore.prototype.subscribe = function (ev, func) {
+		if (this.subscribers[ev]) {
+			this.subscribers[ev].push(ev)
+		} else {
+			this.subscribers[ev] = [func];
+		}
+	};
 
 	var TodoApp = React.createClass({
 
 		getInitialState: function () {
-			return {data: todoData};
+			return {todos: this.props.todos};
+		},
+
+		componentDidMount: function () {
+			TodoStore.subscribe('change', function () {
+				React.render(<App todos={TodoStore.todos} />, document.querySelector('#content'));
+			});
 		},
 
 		saveTodos: function (todo) {
-			todoData.push(todo);
-			this.setState({data: todoData});
+			TodoStore.todos.push(todo);
+			TodoStore.publish('change');
 		},
 
-		complete: function (todo) {
+		completeTodo: function (todo) {
 			todo.completed = !todo.completed;
-			this.setState({data: todoData});
+			TodoStore.publish('change');
 		},
 
 		render: function () {
@@ -28,8 +54,8 @@
 				<section className="todoApp">
 					<TodoForm save={this.saveTodos} />
 					<TodoList 
-						list={this.state.data}
-						complete={this.complete} />
+						list={this.state.todos}
+						complete={this.completeTodo} />
 				</section>
 			);
 		}
@@ -38,7 +64,6 @@
 	var TodoList = React.createClass({
 
 		toggleComplete: function (todo) {
-			console.log(todo)
 			this.props.complete(todo);
 		},
 
@@ -92,14 +117,64 @@
 			return (
 				<li key={this.props.key}
 					className={completed ? 'delete' : ''}>
-						<span>{this.props.todo.text}</span>
 						<input type="checkbox" onChange={this.props.onChange} />
-						<span>Mark Completed</span>
+						<span>{this.props.todo.text}</span>
 				</li>
 			);
 		}
 	});
 
-	window.onload = React.render(<TodoApp />, document.querySelector('#content'));
+	var Controls = React.createClass({
 
-})();
+		markComplete: function () {
+			console.log('markComplete triggered');
+		},
+
+		clearComplete: function () {
+			console.log('clearComplete triggered');
+		},
+
+		clearAll: function () {
+			console.log('clearAll triggered');
+		},
+
+		_handleClick: function (e) {
+			e.preventDefault();
+
+			switch(e.target.id) {
+				case 'markComplete':
+					this.markComplete();
+					break;
+				case 'clearComplete':
+					this.clearComplete();
+					break;
+				case 'clearAll':
+					this.clearAll();
+					break;
+			}
+		},
+
+		render: function () {
+			return (
+				<div onClick={this._handleClick}>
+					<span><a href="#" id="markComplete">Mark All as Completed</a></span>
+					<span><a href="#" id="clearComplete">Clear Completed</a></span>
+					<span><a href="#" id="clearAll">Clear All</a></span>
+				</div>
+			);
+		}
+	});
+
+	var App = React.createClass({
+		render: function () {
+			return (
+				<div>
+					<TodoApp todos={this.props.todos}/>
+					<Controls />
+				</div>
+			);
+		}
+
+	});
+
+	window.onload = React.render(<App todos={TodoStore.todos}/>, document.querySelector('#content'));
