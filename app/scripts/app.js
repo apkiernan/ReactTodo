@@ -54,6 +54,10 @@ var TodoList = React.createClass({
 
 var TodoForm = React.createClass({
 
+	propTypes: {
+
+	},
+
 	_handleSubmit: function (e) {
 		e.preventDefault();
 
@@ -125,11 +129,11 @@ var Controls = React.createClass({
 
 	render: function () {
 		return (
-			<div onClick={this._handleClick}>
-				<span><a href="#" id="markComplete">Mark All as Completed</a></span>
-				<span><a href="#" id="clearComplete">Clear Completed</a></span>
-				<span><a href="#" id="clearAll">Clear All</a></span>
-			</div>
+			<ul className="footer" onClick={this._handleClick}>
+				<li><a href="#" id="markComplete">Complete All</a></li>
+				<li><a href="#" id="clearComplete">Clear Completed</a></li>
+				<li><a href="#" id="clearAll">Clear All</a></li>
+			</ul>
 		);
 	}
 });
@@ -146,3 +150,4 @@ var App = React.createClass({
 });
 
 window.onload = React.render(<App store={TodoStore}/>, document.querySelector('#content'));
+
