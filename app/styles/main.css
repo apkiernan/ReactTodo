@@ -15,7 +15,7 @@ h1 {
 }
 
 body {
-	width: 60%;
+	width: 75%;
 	margin: 5% auto;
 	background: #d6d6d6;
 }
@@ -45,6 +45,10 @@ ul {
 	padding: 0;
 }
 
+.todoApp ul li {
+	border-bottom: 1px dashed #888;
+}
+
 li.delete {
 	text-decoration: line-through;
 }
@@ -54,7 +58,7 @@ li.delete {
 	width: 33%;
 }
 
-.footer li a {
-	text-decoration: none;
+.footer li span {
 	color: #871c1a;
+	cursor: pointer;
 }
