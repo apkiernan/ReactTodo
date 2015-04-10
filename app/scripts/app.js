@@ -2,9 +2,11 @@
 	var TodoApp = React.createClass({
 
 		componentDidMount: function () {
-			this.props.store.subscribe('change', function () {
-				React.render(<App store={TodoStore} />, document.querySelector('#content'));
-			});
+			this.props.store.subscribe('change', _renderApp);
+		},
+
+		componentWillUnmount: function () {
+			this.props.store.unsubscribe('change', _renderApp)
 		},
 
 		render: function () {
@@ -17,6 +19,10 @@
 						complete={this._toggleComplete} />
 				</section>
 			);
+		},
+
+		_renderApp: function () {
+			React.render(<App store={TodoStore} />, document.querySelector('#content'));
 		},
 
 		_save: function (todo) {

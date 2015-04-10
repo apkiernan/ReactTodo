@@ -31,6 +31,15 @@
 			}
 		},
 
+		unsubscribe: function (e, func) {
+			for (var ev in this.subscribers) {
+				if (this.subscribers[ev] === e) {
+					var sub = this.subscribers[ev];
+					sub.splice(sub.indexof(func), 1);
+				}
+			}
+		},
+
 		save: function (todo) {
 			todo.id = getId();
 			this.todos.push(todo);
