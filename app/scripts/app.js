@@ -2,11 +2,11 @@
 	var TodoApp = React.createClass({
 
 		componentDidMount: function () {
-			this.props.store.subscribe('change', _renderApp);
+			this.props.store.subscribe('change', this._renderApp);
 		},
 
 		componentWillUnmount: function () {
-			this.props.store.unsubscribe('change', _renderApp)
+			this.props.store.unsubscribe('change', this._renderApp)
 		},
 
 		render: function () {
